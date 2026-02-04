@@ -1,0 +1,21 @@
+{
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true
+    // "**/Properties": true,
+    // "**/app.sln":true,
+    // "**/api/attrubute":true,
+    // "**/api/extension":true,
+    // "**/api/filter":true,
+    // "**/api/middleware":true,
+    // "**/api/attribute":true,
+    // "**/infra/auth":true,
+    // "**/infra/Database.factory.cs":true,
+    // "**/application/common":true,
+    // "**/.editorconfig":true,
+    // "**/Program.cs":false,
+    // "**/appsettings.*.json":false,
+    // "**/appsettings.json":false,
+  },
+  "editor.formatOnSave": true
+}

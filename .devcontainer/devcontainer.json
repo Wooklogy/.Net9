@@ -1,0 +1,31 @@
+{
+  "name": ".NET Dev Container",
+  "dockerComposeFile": ["../../../compose/docker-compose.yml"],
+  "service": "api",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": true,
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "csharp.referencesCodeLens.enabled": false,
+        "csharp.inlayHints.enabled": true,
+        "csharp.completion.showCompletionItemsFromUnimportedNamespaces": true
+      },
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker",
+        "EditorConfig.EditorConfig",
+        "jmrog.vscode-nuget-package-manager",
+        "redhat.vscode-yaml",
+        "mikestead.dotenv",
+        "yzhang.markdown-all-in-one",
+        "HoGentTIN.sort-lines"
+      ]
+    }
+  }
+}
