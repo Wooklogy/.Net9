@@ -5,7 +5,7 @@ export
 API_DIR = Api
 HUB_DIR = Hub
 API_CS = $(API_DIR)/Api.csproj
-HUB_CS = $(HUB_DIR)/Trading.Hub.csproj
+HUB_CS = $(HUB_DIR)/Hub.csproj
 MIGRATION_PATH = Infra/Migrations
 
 # 3. 색상 정의 (로그 가독성용)
@@ -18,14 +18,36 @@ RESET = \033[0m
 # ───────────────────────────────
 
 # API 서버 실행: .env의 PORT_API_TARGET 변수를 연동합니다.
+# API 서버 실행: PORT_API(5200) 변수를 우선 사용합니다.
+# 개발 환경 실행: Hot Reload 활성화 및 상세 로그 출력
 dev-api:
-	@echo "$(BLUE)Starting API Server on port $(PORT_API_TARGET)...$(RESET)"
-	dotnet watch run --project $(API_CS) --urls "http://0.0.0.0:$(PORT_API_TARGET)"
+	@echo "$(BLUE)[DEV] Starting API Server in Development mode...$(RESET)"
+	ASPNETCORE_ENVIRONMENT=Development \
+	ASPNETCORE_URLS="http://0.0.0.0:5000" \
+	dotnet watch run --project $(API_CS) --no-launch-profile
 
-# Hub 서버 실행: .env의 PORT_HUB_TARGET 변수를 연동합니다.
 dev-hub:
-	@echo "$(BLUE)Starting Hub Server on port $(PORT_HUB_TARGET)...$(RESET)"
-	dotnet watch run --project $(HUB_CS) --urls "http://0.0.0.0:$(PORT_HUB_TARGET)"
+	@echo "$(BLUE)[DEV] Starting Hub Server on port 5001...$(RESET)"
+	ASPNETCORE_ENVIRONMENT=Development \
+	ASPNETCORE_URLS="http://0.0.0.0:5001" \
+	dotnet watch run --project $(HUB_CS) --no-launch-profile
+
+# ───────────────────────────────
+# 🌐 Production (Production Mode)
+# ───────────────────────────────
+
+# 운영 환경 실행: 최적화 빌드 후 실행 (Hot Reload 비활성화)
+prod-api:
+	@echo "$(YELLOW)[PROD] Starting API Server in Production mode...$(RESET)"
+	ASPNETCORE_ENVIRONMENT=Production \
+	ASPNETCORE_URLS="http://0.0.0.0:5000" \
+	dotnet run --project $(API_CS) --configuration Release --no-launch-profile
+
+prod-hub:
+	@echo "$(YELLOW)[PROD] Starting Hub Server on port 5001...$(RESET)"
+	ASPNETCORE_ENVIRONMENT=Production \
+	ASPNETCORE_URLS="http://0.0.0.0:5001" \
+	dotnet run --project $(HUB_CS) --configuration Release --no-launch-profile
 
 # ───────────────────────────────
 # 🛠 DB Migrations (EF Core)

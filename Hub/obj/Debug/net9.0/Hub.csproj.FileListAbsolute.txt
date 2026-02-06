@@ -1,0 +1,8 @@
+/workspace/Hub/obj/Debug/net9.0/Hub.csproj.AssemblyReference.cache
+/workspace/Hub/obj/Debug/net9.0/rpswa.dswa.cache.json
+/workspace/Hub/obj/Debug/net9.0/Hub.GeneratedMSBuildEditorConfig.editorconfig
+/workspace/Hub/obj/Debug/net9.0/Hub.AssemblyInfoInputs.cache
+/workspace/Hub/obj/Debug/net9.0/Hub.AssemblyInfo.cs
+/workspace/Hub/obj/Debug/net9.0/Hub.csproj.CoreCompileInputs.cache
+/workspace/Hub/obj/Debug/net9.0/Hub.MvcApplicationPartsAssemblyInfo.cache
+/workspace/Hub/obj/Debug/net9.0/Hub.sourcelink.json

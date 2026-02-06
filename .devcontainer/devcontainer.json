@@ -8,23 +8,23 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "dotnet.defaultSolution": "workspace.sln",
+        "csharp.server.useOmnisharp": false,
+        "dotnet.projects.searchSubdirectories": true,
         "editor.formatOnSave": true,
-        "files.trimTrailingWhitespace": true,
-        "files.insertFinalNewline": true,
-        "csharp.referencesCodeLens.enabled": false,
         "csharp.inlayHints.enabled": true,
-        "csharp.completion.showCompletionItemsFromUnimportedNamespaces": true
+        "csharp.referencesCodeLens.enabled": false,
+        "csharp.completion.showCompletionItemsFromUnimportedNamespaces": true,
+        "omnisharp.enableMsBuildLoadProjectsOnDemand": false,
+        "omnisharp.autoStart": true
       },
       "extensions": [
-        "ms-dotnettools.csdevkit",
-        "eamodio.gitlens",
+        "ms-dotnettools.csharp", // 핵심: C# 기본 확장
+        "ms-dotnettools.csdevkit", // C# Dev Kit
+        "ms-dotnettools.vscode-dotnet-runtime", // .NET 런타임 관리
         "ms-azuretools.vscode-docker",
-        "EditorConfig.EditorConfig",
         "jmrog.vscode-nuget-package-manager",
-        "redhat.vscode-yaml",
-        "mikestead.dotenv",
-        "yzhang.markdown-all-in-one",
-        "HoGentTIN.sort-lines"
+        "mikestead.dotenv"
       ]
     }
   }

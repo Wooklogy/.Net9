@@ -1,0 +1,13 @@
+/workspace/Share/bin/Debug/net9.0/Share.deps.json
+/workspace/Share/bin/Debug/net9.0/Share.dll
+/workspace/Share/bin/Debug/net9.0/Share.pdb
+/workspace/Share/obj/Debug/net9.0/Share.csproj.AssemblyReference.cache
+/workspace/Share/obj/Debug/net9.0/Share.GeneratedMSBuildEditorConfig.editorconfig
+/workspace/Share/obj/Debug/net9.0/Share.AssemblyInfoInputs.cache
+/workspace/Share/obj/Debug/net9.0/Share.AssemblyInfo.cs
+/workspace/Share/obj/Debug/net9.0/Share.csproj.CoreCompileInputs.cache
+/workspace/Share/obj/Debug/net9.0/Share.sourcelink.json
+/workspace/Share/obj/Debug/net9.0/Share.dll
+/workspace/Share/obj/Debug/net9.0/refint/Share.dll
+/workspace/Share/obj/Debug/net9.0/Share.pdb
+/workspace/Share/obj/Debug/net9.0/ref/Share.dll
