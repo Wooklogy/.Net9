@@ -1,0 +1,10 @@
+# .NET 핵심 제외 대상
+bin/
+obj/
+
+# NuGet 패키지 관련
+.nuget/
+packages/
+
+# OS 관련
+.DS_Store
