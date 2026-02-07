@@ -41,6 +41,6 @@ public abstract class BaseEntityUuid : BaseEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)] // 애플리케이션에서 생성 제어
-    [Column("uuid")]
-    public Guid Uuid { get; private set; } = Guid.NewGuid();
+    [Column("id")]
+    public Guid Id { get; private set; } = Guid.NewGuid();
 }
