@@ -22,7 +22,7 @@ public class AuthRepository(AppDbContext db) : IAuthRepository
         var query = db.Users.AsNoTracking();
         if (!string.IsNullOrWhiteSpace(keyword))
             query = query.Where(u => u.Identify.Contains(keyword.Trim()));
-        
+
         return await query.CountAsync();
     }
 

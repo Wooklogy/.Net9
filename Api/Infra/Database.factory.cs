@@ -16,9 +16,9 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 
         // 2. DbContextOptionsBuilder 설정
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        
+
         // 환경변수에서 연결 문자열을 못 찾으면 더미 문자열이라도 넣어 에러를 방지합니다.
-        var connectionString = configuration.GetConnectionString("DefaultConnection") 
+        var connectionString = configuration.GetConnectionString("DefaultConnection")
                                ?? "Host=localhost;Database=dummy;Username=dummy;Password=dummy";
 
         optionsBuilder.UseNpgsql(connectionString)

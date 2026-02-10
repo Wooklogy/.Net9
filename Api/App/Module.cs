@@ -14,11 +14,11 @@ public static class ServiceRegistration
         // ✅ App / Domain Services
 
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IAuthRepository,AuthRepository>();
-        
+        services.AddScoped<IAuthRepository, AuthRepository>();
+
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IFileRepository, FileRepository>();
-        
+
 
         services.AddHttpContextAccessor();
     }

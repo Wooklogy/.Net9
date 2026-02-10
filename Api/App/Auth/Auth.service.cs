@@ -28,7 +28,7 @@ public class AuthService(IAuthRepository authRepository, IJwtTokenService jwt) :
 
     public async Task<string> Login(GetLoginQTO qto)
     {
-        var user = await authRepository.GetByIdentifyAsync(qto.Identify) 
+        var user = await authRepository.GetByIdentifyAsync(qto.Identify)
                    ?? throw new BadRequestException("exception_notfound_user_infomation");
 
         if (!ToolHash.Verify(qto.Password, user.Password))
@@ -37,7 +37,7 @@ public class AuthService(IAuthRepository authRepository, IJwtTokenService jwt) :
         user.LastLoginAt = DateTime.UtcNow;
         await authRepository.SaveChangesAsync();
 
-        return jwt.GenerateToken(user.Uuid, user.Identify,user.Role);
+        return jwt.GenerateToken(user.Id, user.Identify, user.Role);
     }
 
 }

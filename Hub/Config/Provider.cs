@@ -12,7 +12,7 @@ public class UuidUserIdProvider : IUserIdProvider
     {
         // JWT의 'sub' 클레임 또는 별도로 지정한 'id' 클레임에서 값을 추출합니다.
         // 보통 표준 JWT에서는 NameIdentifier(sub)에 UUID를 담습니다.
-        return connection.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value 
+        return connection.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
                ?? connection.User?.FindFirst("id")?.Value;
     }
 }

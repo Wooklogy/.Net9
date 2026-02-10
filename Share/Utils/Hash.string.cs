@@ -38,17 +38,17 @@ public static class ToolHash
     }
 
     // Share/Utils/ToolHash.cs
-public static bool IsHashed(string value)
-{
-    if (string.IsNullOrWhiteSpace(value)) return false;
+    public static bool IsHashed(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return false;
 
-    // 1. bcrypt 패턴 확인
-    if (value.StartsWith("$2")) return true;
+        // 1. bcrypt 패턴 확인
+        if (value.StartsWith("$2")) return true;
 
-    // 2. SHA256 패턴 확인 (IsHashed 재호출 대신 IsHexString 사용)
-    if (value.Length == 64 && IsHexString(value)) 
-        return true;
+        // 2. SHA256 패턴 확인 (IsHashed 재호출 대신 IsHexString 사용)
+        if (value.Length == 64 && IsHexString(value))
+            return true;
 
-    return false;
-}
+        return false;
+    }
 }

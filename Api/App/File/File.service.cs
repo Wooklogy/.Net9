@@ -12,8 +12,8 @@ using Api.Infra.Base;
 namespace Api.App.File;
 
 public class FileService(
-    IAmazonS3 s3Client, 
-    IFileRepository fileRepository, 
+    IAmazonS3 s3Client,
+    IFileRepository fileRepository,
     IOptions<BaseAWSS3Options> s3Options) : IFileService
 {
     private readonly string _bucketName = s3Options.Value.BucketName;
@@ -36,15 +36,15 @@ public class FileService(
         };
 
         var fileTransferUtility = new TransferUtility(s3Client);
-        
-        try 
+
+        try
         {
             // S3 업로드 실행
             await fileTransferUtility.UploadAsync(uploadRequest);
 
             // 2. DB 엔티티 생성
-            var fileUrl = type == EnumFileType.Public 
-                ? $"https://{_bucketName}.s3.amazonaws.com/{s3Key}" 
+            var fileUrl = type == EnumFileType.Public
+                ? $"https://{_bucketName}.s3.amazonaws.com/{s3Key}"
                 : string.Empty; // Private은 Presigned URL을 통해 제공하므로 기본 URL 비움 처리 가능
 
             var entity = new FileEntity
@@ -72,7 +72,7 @@ public class FileService(
         var file = await fileRepository.GetByUuidAsync(fileUuid);
 
         // Public 파일인 경우 저장된 URL 즉시 반환
-        if (file.Type == EnumFileType.Public && !string.IsNullOrEmpty(file.Url)) 
+        if (file.Type == EnumFileType.Public && !string.IsNullOrEmpty(file.Url))
             return file.Url;
 
         // Private 파일이거나 URL이 없는 경우 Presigned URL 생성

@@ -17,7 +17,7 @@ public class CorrelationIdMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         // 1. 요청 헤더에서 Correlation ID 추출 (없으면 새로 생성)
-        if (!context.Request.Headers.TryGetValue(HeaderName, out StringValues correlationId) || 
+        if (!context.Request.Headers.TryGetValue(HeaderName, out StringValues correlationId) ||
             string.IsNullOrWhiteSpace(correlationId))
         {
             correlationId = Guid.NewGuid().ToString();

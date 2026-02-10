@@ -8,25 +8,25 @@ namespace Singleton.Services.Redis;
 public sealed class RedisService(IConnectionMultiplexer redis) : IRedisService
 {
     private readonly IDatabase _db = redis.GetDatabase();
-    private static readonly JsonSerializerOptions _jsonOptions = new() 
-    { 
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower 
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
     };
 
-// --- String Operations ---
+    // --- String Operations ---
     public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null, When? when = null)
-{
-    var json = JsonSerializer.Serialize(value, _jsonOptions);
-    
-    // 1. 명시적 형변환 (TimeSpan? -> Expiration)
-    // 2. Named Arguments (expiry:, when:) 사용으로 모호성 완전 제거
-    await _db.StringSetAsync(
-        key, 
-        json, 
-        expiry: expiry, 
-        when: when ?? When.Always
-    );
-}
+    {
+        var json = JsonSerializer.Serialize(value, _jsonOptions);
+
+        // 1. 명시적 형변환 (TimeSpan? -> Expiration)
+        // 2. Named Arguments (expiry:, when:) 사용으로 모호성 완전 제거
+        await _db.StringSetAsync(
+            key,
+            json,
+            expiry: expiry,
+            when: when ?? When.Always
+        );
+    }
     public async Task<T?> GetAsync<T>(string key)
     {
         var value = await _db.StringGetAsync(key);

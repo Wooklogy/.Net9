@@ -24,9 +24,9 @@ public sealed class AuthHandler(IDbContextFactory<AppDbContext> dbFactory, IRedi
 
         // 1. Redis에서 Role과 Permissions 한 번에 가져오기 (HGETALL)
         var userCache = await _redis.HashGetAllAsync(cacheKey);
-        
+
         EnumRole? currentRole = null;
-        List<EnumPermission> currentPermissions = new();
+        List<EnumPermission> currentPermissions = [];
 
         if (userCache.Count > 0)
         {
@@ -42,7 +42,7 @@ public sealed class AuthHandler(IDbContextFactory<AppDbContext> dbFactory, IRedi
             // 캐시 미스 (Cache Miss) -> DB 조회 후 Redis 적재
             using var db = await _dbFactory.CreateDbContextAsync();
             var user = await db.Users.AsNoTracking()
-                .Where(u => u.Uuid == userId && u.DeletedAt == null)
+                .Where(u => u.Id == userId && u.DeletedAt == null)
                 .Select(u => new { u.Role }).FirstOrDefaultAsync();
 
             if (user == null) return;
@@ -62,6 +62,19 @@ public sealed class AuthHandler(IDbContextFactory<AppDbContext> dbFactory, IRedi
 
         // 3. Permission 체크
         if (requirement.Permissions.Any() && !requirement.Permissions.All(p => currentPermissions.Contains(p))) return;
+
+        var appIdentity = new ClaimsIdentity();
+        appIdentity.AddClaim(new Claim(ClaimTypes.Role, currentRole.ToString()!));
+        appIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()!));
+
+
+        foreach (var permission in currentPermissions)
+        {
+            appIdentity.AddClaim(new Claim("Permission", permission.ToString()));
+        }
+
+        // 현재 유저의 Principal에 새로운 Identity 추가
+        context.User.AddIdentity(appIdentity);
 
         context.Succeed(requirement);
     }

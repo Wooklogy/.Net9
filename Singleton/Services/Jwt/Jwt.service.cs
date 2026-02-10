@@ -20,7 +20,7 @@ public sealed class JwtTokenService : IJwtTokenService
     {
         var jwt = config.GetSection("Jwt");
         var key = jwt["Key"] ?? throw new InvalidOperationException("Jwt:Key not configured.");
-        
+
         _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         _expireMinutes = jwt.GetValue<int>("ExpireMinutes", 60);
         _issuer = jwt["Issuer"];

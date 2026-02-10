@@ -9,7 +9,7 @@ namespace Api.App.User.Entities;
 [Table("user")]
 [Index(nameof(Identify), IsUnique = true)]
 [Comment("User Table for trading system")]
-public class UserEntity : BaseEntityUuid
+public class UserEntity : BaseEntityUlid
 {
     [Required]
     [MaxLength(128)]

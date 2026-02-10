@@ -14,7 +14,7 @@ public class ApiMetrics
 
         // 요청 횟수 카운터 (누적 수치)
         _requestCounter = meter.CreateCounter<long>("api.requests.total", description: "Total number of API requests");
-        
+
         // 요청 처리 시간 히스토그램 (분포도 측정)
         _requestDuration = meter.CreateHistogram<double>("api.requests.duration", "ms", "Duration of API requests");
     }
@@ -22,7 +22,7 @@ public class ApiMetrics
     public void RecordRequest(string method, string path, int statusCode, double elapsedMs)
     {
         var tags = new TagList { { "method", method }, { "path", path }, { "status_code", statusCode } };
-        
+
         _requestCounter.Add(1, tags);
         _requestDuration.Record(elapsedMs, tags);
     }

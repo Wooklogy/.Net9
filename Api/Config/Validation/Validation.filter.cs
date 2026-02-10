@@ -11,7 +11,7 @@ public class ValidationExceptionFilter : IActionFilter
         if (!context.ModelState.IsValid)
         {
             // 1. TraceId 추출 최적화: 헤더 우선, 없으면 ASP.NET 기본 ID 사용
-            var traceId = context.HttpContext.Request.Headers["X-Correlation-Id"].FirstOrDefault() 
+            var traceId = context.HttpContext.Request.Headers["X-Correlation-Id"].FirstOrDefault()
                           ?? context.HttpContext.TraceIdentifier;
 
             // 2. 에러 딕셔너리 추출 (형님의 로직 유지 및 최적화)

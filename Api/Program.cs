@@ -25,12 +25,12 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 // --- 0. Configuration ---
-builder.Configuration.Sources.Clear(); 
+builder.Configuration.Sources.Clear();
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-    .AddEnvironmentVariables(); 
+    .AddEnvironmentVariables();
 
 // --- 1. Singleton Infrastructure (공통 인프라 주입) ---
 // 이제 Redis, JWT, RedisCache 등록 로직은 Singleton 내부에서 처리됩니다.
@@ -39,7 +39,7 @@ builder.Services.AddSingletonInfra(builder.Configuration);
 // --- 2. API Specific Infrastructure ---
 builder.Services.AddHealthChecks();
 builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; });
-builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddHttpContextAccessor();
 
 // CORS 설정
 var rawOrigins = builder.Configuration["ALLOWED_ORIGINS"] ?? "";
@@ -107,12 +107,14 @@ builder.Services.AddOpenApi(options =>
         document.Info.Version = "v1";
         document.Components ??= new OpenApiComponents();
         document.Servers = [new() { Url = $"http://localhost:{targetPort}" }];
-        
+
         if (!document.Components.Schemas.ContainsKey(nameof(ErrorSTO)))
         {
-            document.Components.Schemas.Add(nameof(ErrorSTO), new OpenApiSchema {
+            document.Components.Schemas.Add(nameof(ErrorSTO), new OpenApiSchema
+            {
                 Type = "object",
-                Properties = new Dictionary<string, OpenApiSchema> {
+                Properties = new Dictionary<string, OpenApiSchema>
+                {
                     ["code"] = new OpenApiSchema { Type = "string" },
                     ["trace_id"] = new OpenApiSchema { Type = "string" },
                     ["message"] = new OpenApiSchema { Type = "string" }
@@ -121,8 +123,12 @@ builder.Services.AddOpenApi(options =>
         }
         if (!document.Components.SecuritySchemes.ContainsKey("Bearer"))
         {
-            document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme {
-                Type = SecuritySchemeType.Http, Scheme = "bearer", BearerFormat = "JWT", In = ParameterLocation.Header
+            document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header
             });
         }
         return Task.CompletedTask;
@@ -181,9 +187,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseResponseCompression();
 }
-app.UseCorrelationId();        
-app.UseApiMetrics();           
-app.UseGlobalExceptionHandling(); 
+app.UseCorrelationId();
+app.UseApiMetrics();
+app.UseGlobalExceptionHandling();
 
 if (app.Environment.IsDevelopment())
 {
@@ -194,7 +200,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapPrometheusScrapingEndpoint(); 
+app.MapPrometheusScrapingEndpoint();
 app.MapHealthChecks("/health");
 
 app.Run();

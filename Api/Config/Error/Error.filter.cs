@@ -15,7 +15,7 @@ public sealed class ErrorResponseTransformer : IOpenApiOperationTransformer
 
         if (attr == null) return Task.CompletedTask;
 
-        
+
         foreach (var code in attr.StatusCodes)
         {
             var key = code.ToString();

@@ -26,7 +26,7 @@ public static class SingletonRegistration
 
         // 3. JWT Service
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
-        
+
         return services;
     }
 }

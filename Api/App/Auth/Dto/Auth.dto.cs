@@ -34,7 +34,7 @@ public sealed class GetAllUsersQTO : BasePaginationQTO
 
 public sealed class GetAllUserSTO
 {
-    public required Guid Uuid { get; set; }
+    public required Guid Id { get; set; }
     public required string Identify { get; set; }
     public EnumRole? Role { get; set; }
     public DateTime? LastLoginAt { get; set; }

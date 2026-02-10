@@ -5,42 +5,57 @@ namespace Api.Infra.Base;
 
 public abstract class BaseEntity
 {
-    // EF Core의 ApplyAuditRules에서 값을 수정할 수 있도록 internal set으로 변경합니다.
+    // 거래소의 정밀한 시간 관리를 위해 DateTimeOffset 추천
     [Column("created_at")]
-    public DateTime CreatedAt { get; internal set; } 
+    public DateTimeOffset CreatedAt { get; internal set; } = DateTimeOffset.UtcNow;
 
     [Column("updated_at")]
-    public DateTime? UpdatedAt { get; internal set; }
+    public DateTimeOffset? UpdatedAt { get; internal set; }
 
     [Column("deleted_at")]
-    public DateTime? DeletedAt { get; internal set; } // Soft Delete 필드
-
-    protected BaseEntity()
-    {
-        // 초기값은 생성 시점 기준으로 설정
-        var now = DateTime.UtcNow;
-        CreatedAt = now;
-    }
+    public DateTimeOffset? DeletedAt { get; internal set; }
 
     public void Restore()
     {
         DeletedAt = null;
-        UpdatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
+
+    public void MarkAsUpdated() => UpdatedAt = DateTimeOffset.UtcNow;
+    public void SoftDelete() => DeletedAt = DateTimeOffset.UtcNow;
 }
 
-public abstract class BaseEntityId : BaseEntity 
+// 1. 내부 관리용 (BIGINT)
+public abstract class BaseEntityId : BaseEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    public int Id { get; private set; }
+    public long Id { get; protected set; }
 }
 
-public abstract class BaseEntityUuid : BaseEntity
+// 2. 외부 노출 및 정렬용 (ULID) - DB에는 Binary(16)/Guid로 저장하여 성능 극대화
+public abstract class BaseEntityUlid : BaseEntity
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)] // 애플리케이션에서 생성 제어
     [Column("id")]
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    public Guid Id { get; protected set; } = Ulid.NewUlid().ToGuid();
+
+    // 도움말: 외부 출력 시에는 다시 Ulid로 변환해서 .ToString() 하면 됩니다.
+    [NotMapped]
+    public Ulid Ulid => new(Id);
+
+    [NotMapped]
+    public string DisplayId => Id.ToString()[^8..].ToUpper();
+}
+
+
+public abstract class BaseSTO
+{
+    public Guid Id { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+
+    public DateTimeOffset? UpdatedAt { get; set; }
+
+    public DateTimeOffset? DeletedAt { get; set; }
 }

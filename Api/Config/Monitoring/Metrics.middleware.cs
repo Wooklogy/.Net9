@@ -18,7 +18,7 @@ public class MetricsMiddleware(RequestDelegate next, ApiMetrics metrics)
         finally
         {
             var elapsedMs = Stopwatch.GetElapsedTime(start).TotalMilliseconds;
-            
+
             // 수치 데이터만 기록 (문자열 보간이나 I/O 작업 없음)
             _metrics.RecordRequest(
                 context.Request.Method,

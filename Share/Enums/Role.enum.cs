@@ -1,7 +1,7 @@
 namespace Share.Enums;
 public enum EnumRole
 {
-    Admin ,
+    Admin,
     SubAdmin,
-    User ,
+    User,
 }

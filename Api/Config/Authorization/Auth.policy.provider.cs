@@ -17,7 +17,7 @@ public sealed class AuthPolicyProvider(IOptions<AuthorizationOptions> options) :
         var roles = parts[0].Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(r => Enum.Parse<EnumRole>(r, true));
 
-        var perms = parts.Length > 1 
+        var perms = parts.Length > 1
             ? parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries).Select(p => Enum.Parse<EnumPermission>(p, true))
             : [];
 

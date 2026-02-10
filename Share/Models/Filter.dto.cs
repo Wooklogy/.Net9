@@ -1,5 +1,5 @@
 namespace Share.Models;
-public abstract class BaseFilterQTO:BasePaginationQTO
+public abstract class BaseFilterQTO : BasePaginationQTO
 {
     public string? Created_at_start { get; init; }
 

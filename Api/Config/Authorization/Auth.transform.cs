@@ -10,11 +10,10 @@ public sealed class AuthDescriptionTransformer : IOpenApiOperationTransformer
 {
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
-        var actionDescriptor = context.Description.ActionDescriptor as ControllerActionDescriptor;
-        if (actionDescriptor == null) return Task.CompletedTask;
+        if (context.Description.ActionDescriptor is not ControllerActionDescriptor actionDescriptor) return Task.CompletedTask;
 
         // 1. 리플렉션으로 특성 추출
-        var authAttr = actionDescriptor.MethodInfo.GetCustomAttribute<AuthorizePermissionAttribute>() 
+        var authAttr = actionDescriptor.MethodInfo.GetCustomAttribute<AuthorizePermissionAttribute>()
                       ?? actionDescriptor.ControllerTypeInfo.GetCustomAttribute<AuthorizePermissionAttribute>();
 
         if (authAttr == null)
@@ -27,16 +26,16 @@ public sealed class AuthDescriptionTransformer : IOpenApiOperationTransformer
         var authInfo = new StringBuilder();
         authInfo.AppendLine("\n\n---");
         authInfo.AppendLine("### 🔒 **Security Requirements**");
-        
+
         if (authAttr.Role?.Any() == true)
             authInfo.AppendLine($"- **Allowed Roles**: `{string.Join("`, `", authAttr.Role)}` ");
-            
+
         if (authAttr.Permissions?.Any() == true)
             authInfo.AppendLine($"- **Permissions**: `{string.Join("`, `", authAttr.Permissions)}` ");
 
         // ✅ 급소: Scalar가 EndpointDescription을 우선시하므로, 강제로 합쳐버립니다.
         operation.Description = (operation.Description ?? "") + authInfo.ToString();
-        
+
         // 추가로 Summary 옆에도 자물쇠 표시를 넣어 시각적 효과를 극대화합니다.
         operation.Summary = $"[🔒] {operation.Summary}";
 

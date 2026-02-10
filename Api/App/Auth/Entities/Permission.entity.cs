@@ -11,7 +11,7 @@ namespace Api.App.Auth.Entities;
 // 유저 한 명에게 동일한 권한이 중복으로 들어가지 않도록 복합 인덱스(Unique) 설정 권장
 [Index(nameof(TargetIsId), nameof(Permission), IsUnique = true)]
 [Comment("Fine-grained permission management table")]
-public class PermissionEntity : BaseEntityUuid
+public class PermissionEntity : BaseEntityUlid
 {
     [Required]
     [Comment("The specific permission type (e.g., Trade_Read, Admin_Write)")]

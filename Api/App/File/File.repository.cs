@@ -19,7 +19,7 @@ public class FileRepository(AppDbContext db) : IFileRepository
 
     public async Task<FileEntity> GetByUuidAsync(Guid uuid)
     {
-        return await db.Files.FirstOrDefaultAsync(f => f.Uuid == uuid) 
+        return await db.Files.FirstOrDefaultAsync(f => f.Id == uuid)
                ?? throw new NotFoundException("Couldn't find the file");
     }
 
@@ -44,7 +44,7 @@ public class FileRepository(AppDbContext db) : IFileRepository
             query = query.Where(x => x.Size <= dto.SizeTo.Value);
 
         var totalCount = await query.CountAsync();
-        
+
         var contents = await query
             .OrderByDescending(f => f.CreatedAt)
             .Skip(dto.Skip)

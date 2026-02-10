@@ -8,7 +8,7 @@ namespace Api.App.File.Entities;
 
 [Table("file")]
 [Comment("Metadata table for uploaded files (S3, etc.)")]
-public class FileEntity : BaseEntityUuid
+public class FileEntity : BaseEntityUlid
 {
     [Required]
     [MaxLength(512)]
