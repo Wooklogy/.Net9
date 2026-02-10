@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using Api.Config.Authorization;
 using Singleton;
 using Share.Models;
+using Api.Config.Context;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -40,6 +41,7 @@ builder.Services.AddSingletonInfra(builder.Configuration);
 builder.Services.AddHealthChecks();
 builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; });
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContext, UserContext>();
 
 // CORS 설정
 var rawOrigins = builder.Configuration["ALLOWED_ORIGINS"] ?? "";
